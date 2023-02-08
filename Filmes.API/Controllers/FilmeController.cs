@@ -8,12 +8,26 @@ public class FilmeController : ControllerBase
 {
 
     private static List<Filme> filmes = new List<Filme>();
+    private static int id = 0;
 
     [HttpPost]
     public void Post([FromBody] Filme filme)
     {
+        filme.Id = id++;
         filmes.Add(filme);
         Console.WriteLine(filme.Titulo);
         Console.WriteLine(filme.Genero);
+    }
+
+    [HttpGet]
+    public IEnumerable<Filme> GetAll()
+    {
+        return filmes;
+    }
+
+    [HttpGet("{id}")]
+    public Filme? GetById(int id)
+    {
+        return filmes.FirstOrDefault(filme => filme.Id == id);
     }
 }
